@@ -71,9 +71,13 @@ def run(data: inputSchema):
 
     At this time only a single model is supported and provided
     """
-    entities = model.run(data.text, data.params)
+    entities = [{'group': w, 'family': f} for w, f in MODEL.run(data.text, data.params)]
 
-
+    return {
+        '_v': VERSION,
+        '_timestamp': datetime.now(pytz.utc),
+        'entities': entities,
+    }
 
 
 if __name__ == '__main__':

@@ -52,15 +52,14 @@ class Model:
         cursor = None
         cursor_type = ''
         for i in range(len(result)):
-            c, l = result[i]
-            print(f"c:{c}, l:{l}")
+            c, label = result[i]
             if c in ['[CLS]', '[SEP]']:
                 continue
-            score = label2score[l]
+            score = label2score[label]
             if score == 3:
                 if cursor:
-                    entities.append((cursor, cursor_type))
-                cursor, cursor_type = c, l
+                    entities.append((cursor, cursor_type[2:]))
+                cursor, cursor_type = c, label
             elif score == 2:
                 if cursor:
                     if c.startswith('#'):
@@ -68,12 +67,15 @@ class Model:
                     else:
                         cursor += ' ' + c
                 else:
-                    cursor, cursor_type = c, l
+                    cursor, cursor_type = c, label
             elif score == 0 and cursor:
                 if c.startswith('#'):
                     cursor += c.replace('##', '')
                 else:
-                    entities.append((cursor, cursor_type))
+                    entities.append((cursor, cursor_type[2:]))
                     cursor = None
+
+            if len(result) == i + 2:
+                entities.append((cursor, cursor_type[2:]))
 
         return entities
