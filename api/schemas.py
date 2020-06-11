@@ -3,14 +3,14 @@ from datetime import datetime
 from pydantic import BaseModel, Field, Json, PositiveInt
 
 
-class inputModel(BaseModel):
+class inputSchema(BaseModel):
     v: PositiveInt = Field(..., alias='_v', description="Version")
     timestamp: datetime = Field(..., alias='_timestamp', description="Timestamp (UNIX Epoch)")
     text: str = Field(..., description="Text to parse")
     params: Json = Field(..., description="Raw parameters (Raw json datatype)")
 
 
-class outputModel(BaseModel):
+class outputSchema(BaseModel):
     v: PositiveInt = Field(..., alias='_v', description="Version")
     timestamp: datetime = Field(..., alias='_timestamp', description="Timestamp (UNIX Epoch)")
     log: Json = Field(..., description="Raw log (Raw json datatype)")

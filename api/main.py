@@ -8,10 +8,10 @@ import uvicorn
 import pytz
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from model_bert_base_ml_conll2002_ner import model
-from models import (
-    ResponseModel,
-    RequestModel,
+from model_bert_base_ml_conll2002_ner import Model
+from schemas import (
+    outputSchema,
+    inputSchema,
 )
 
 
@@ -42,7 +42,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MODEL = model()
+MODEL = Model()
 
 
 # ############################################################### SERVER ROUTES
@@ -64,8 +64,8 @@ def root():
     }
 
 
-@app.post('/run', response_model=ResponseModel)
-def run(data: RequestModel):
+@app.post('/run', response_model=outputSchema)
+def run(data: inputSchema):
     """
     Run Named Entity Recognition trained-model on provided document
 
