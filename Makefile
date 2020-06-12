@@ -22,7 +22,7 @@ serve-dev:
 	export PYTHONPATH=${PYTHONPATH}:./ && pipenv run ./api/main.py --debug
 
 serve:
-	export PYTHONPATH=${PYTHONPATH}:./ && ./api/main.py
+	export PYTHONPATH=${PYTHONPATH}:./ && ./api/main.py --debug
 
 unittests:
 	PYTHONPATH=${PYTHONPATH}:./:./matching:./api pipenv run pytest --cov=./api .

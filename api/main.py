@@ -71,7 +71,10 @@ def run(data: inputSchema):
 
     At this time only a single model is supported and provided
     """
-    entities = [{'group': w, 'family': f} for w, f in MODEL.run(data.text, data.params)]
+    logger.debug("received query, length: %s", len(data.text))
+    entities = [{'group': w, 'family': f} for w, f in MODEL.run(data.text, data.params) if w and f]
+    entities = list({v['group']: v for v in entities}.values())
+    logger.debug("Entities discovered: %s", entities)
 
     return {
         '_v': VERSION,
